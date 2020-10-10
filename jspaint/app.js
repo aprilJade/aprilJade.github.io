@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 const colors = document.querySelectorAll(".controls_color_btn");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
-const svaeBtn = document.getElementById("jsSave");
+const saveBtn = document.getElementById("jsSave");
 const cursor = document.getElementById("cursor");
 const cursorCircle = cursor.querySelector("circle");
 
@@ -22,12 +22,13 @@ ctx.fillStyle = INITIAL_COLOR;
 let filling = false;
 let painting = false;
 
-function stopPainting() {
+function onMouseUp() {
     painting = false;
 }
 
-function startPainting() {
+function onMouseDown() {
     painting = true;
+    if (filling) ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function onMouseMove(event) {
@@ -48,7 +49,7 @@ function onMouseMove(event) {
     }
 }
 
-function handleColorClick(event) {
+function onClickPallete(event) {
     const bgColor = event.target.style.backgroundColor;
 
     ctx.strokeStyle = bgColor;
@@ -56,7 +57,7 @@ function handleColorClick(event) {
     cursorCircle.setAttribute("fill", bgColor);
 }
 
-function handleRangeChange(event) {
+function onRangeChange(event) {
     // update line width
     LINE_WIDTH = event.target.value;
     ctx.lineWidth = LINE_WIDTH;
@@ -69,47 +70,36 @@ function handleRangeChange(event) {
     cursorCircle.setAttribute("r", LINE_WIDTH / 2);
 }
 
-function handleModeClick() {
+function onClickModeBtn() {
     filling = !filling;
     if (filling) mode.innerText = "그리기";
     else mode.innerText = "채우기";
 }
 
-function handleCanvasClick() {
-    if (filling) ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
-function handleCM(event) {
-    event.preventDefault();
-}
-
-function handleSaveClick() {
-    const image = canvas.toDataURL("image/png");
+function onClickSaveBtn() {
     const link = document.createElement("a");
-    link.href = image;
+    link.href = canvas.toDataURL("image/png");
     link.download = "paint";
     link.click();
 }
 
 if (canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mousedown", startPainting);
-    canvas.addEventListener("mouseup", stopPainting);
-    canvas.addEventListener("mouseleave", stopPainting);
-    canvas.addEventListener("click", handleCanvasClick);
-    canvas.addEventListener("contextmenu", handleCM);
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("mouseup", onMouseUp);
+    canvas.addEventListener("mouseleave", onMouseUp);
 }
 
-colors.forEach((color) => color.addEventListener("click", handleColorClick));
+colors.forEach((color) => color.addEventListener("click", onClickPallete));
 
 if (range) {
-    range.addEventListener("input", handleRangeChange);
+    range.addEventListener("input", onRangeChange);
 }
 
 if (mode) {
-    mode.addEventListener("click", handleModeClick);
+    mode.addEventListener("click", onClickModeBtn);
 }
 
-if (svaeBtn) {
-    svaeBtn.addEventListener("click", handleSaveClick);
+if (saveBtn) {
+    saveBtn.addEventListener("click", onClickSaveBtn);
 }
