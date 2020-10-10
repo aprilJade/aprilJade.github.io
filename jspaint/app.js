@@ -1,6 +1,6 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
-const colors = document.querySelectorAll(".jsColor");
+const colors = document.querySelectorAll(".controls_color_btn");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 const svaeBtn = document.getElementById("jsSave");
