@@ -1,6 +1,6 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
-const colors = document.getElementsByClassName("jsColor");
+const colors = document.querySelectorAll(".jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 const svaeBtn = document.getElementById("jsSave");
@@ -30,7 +30,8 @@ function startPainting() {
 function onMouseMove(event) {
     const x = event.offsetX;
     const y = event.offsetY;
-    if(!painting) {
+
+    if (!painting) {
         ctx.beginPath();
         ctx.moveTo(x, y);
     } else {
@@ -48,22 +49,21 @@ function handleRangeChange(event) {
     ctx.lineWidth = event.target.value;
 }
 
-function handleModeClick(event) {
+function handleModeClick() {
     filling = !filling;
-    if(filling === true) mode.innerText = "그리기";
+    if (filling) mode.innerText = "그리기";
     else mode.innerText = "채우기";
 }
 
-function handleCanvasClick(evnet) {
-    if(filling)
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+function handleCanvasClick() {
+    if (filling) ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function handleCM(event) {
-    evnet.preventDefault();
+    event.preventDefault();
 }
 
-function handleSaveClick(event) {
+function handleSaveClick() {
     const image = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = image;
@@ -71,7 +71,7 @@ function handleSaveClick(event) {
     link.click();
 }
 
-if(canvas) {
+if (canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", startPainting);
     canvas.addEventListener("mouseup", stopPainting);
@@ -80,16 +80,16 @@ if(canvas) {
     canvas.addEventListener("contextmenu", handleCM);
 }
 
-Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
+colors.forEach((color) => color.addEventListener("click", handleColorClick));
 
-if(range) {
+if (range) {
     range.addEventListener("input", handleRangeChange);
 }
 
-if(mode) {
+if (mode) {
     mode.addEventListener("click", handleModeClick);
 }
 
-if(svaeBtn) {
+if (svaeBtn) {
     svaeBtn.addEventListener("click", handleSaveClick);
 }
