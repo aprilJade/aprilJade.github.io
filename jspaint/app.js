@@ -103,7 +103,6 @@ function onkeyDown(event) {
         img.addEventListener(
             "load",
             () => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 console.log(undoStack.length);
             },
