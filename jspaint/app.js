@@ -1,11 +1,14 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
-const colors = document.getElementsByClassName("jsColor");
+const colors = document.querySelectorAll(".controls_color_btn");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 const svaeBtn = document.getElementById("jsSave");
+const cursor = document.getElementById("cursor");
+const cursorCircle = cursor.querySelector("circle");
 
 const INITIAL_COLOR = "#2c2c2c";
+let LINE_WIDTH = 2.5;
 
 canvas.width = 700;
 canvas.height = 700;
@@ -13,7 +16,7 @@ canvas.height = 700;
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = INITIAL_COLOR;
-ctx.lineWidth = 2.5;
+ctx.lineWidth = LINE_WIDTH;
 ctx.fillStyle = INITIAL_COLOR;
 
 let filling = false;
@@ -28,42 +31,59 @@ function startPainting() {
 }
 
 function onMouseMove(event) {
-    const x = event.offsetX;
-    const y = event.offsetY;
-    if(!painting) {
+    const offsetX = event.offsetX;
+    const offsetY = event.offsetY;
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    cursor.style.left = clientX - LINE_WIDTH / 2;
+    cursor.style.top = clientY - LINE_WIDTH / 2;
+
+    if (!painting) {
         ctx.beginPath();
-        ctx.moveTo(x, y);
+        ctx.moveTo(offsetX, offsetY);
     } else {
-        ctx.lineTo(x, y);
+        ctx.lineTo(offsetX, offsetY);
         ctx.stroke();
     }
 }
 
 function handleColorClick(event) {
-    ctx.strokeStyle = event.target.style.backgroundColor;
-    ctx.fillStyle = event.target.style.backgroundColor;
+    const bgColor = event.target.style.backgroundColor;
+
+    ctx.strokeStyle = bgColor;
+    ctx.fillStyle = bgColor;
+    cursorCircle.setAttribute("fill", bgColor);
 }
 
 function handleRangeChange(event) {
-    ctx.lineWidth = event.target.value;
+    // update line width
+    LINE_WIDTH = event.target.value;
+    ctx.lineWidth = LINE_WIDTH;
+
+    // update cursor
+    cursor.setAttribute("width", LINE_WIDTH);
+    cursor.setAttribute("height", LINE_WIDTH);
+    cursorCircle.setAttribute("cx", LINE_WIDTH / 2);
+    cursorCircle.setAttribute("cy", LINE_WIDTH / 2);
+    cursorCircle.setAttribute("r", LINE_WIDTH / 2);
 }
 
-function handleModeClick(event) {
+function handleModeClick() {
     filling = !filling;
-    if(filling === true) mode.innerText = "그리기";
+    if (filling) mode.innerText = "그리기";
     else mode.innerText = "채우기";
 }
 
-function handleCanvasClick(evnet) {
-    if(filling)
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+function handleCanvasClick() {
+    if (filling) ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 function handleCM(event) {
-    evnet.preventDefault();
+    event.preventDefault();
 }
 
-function handleSaveClick(event) {
+function handleSaveClick() {
     const image = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = image;
@@ -71,7 +91,7 @@ function handleSaveClick(event) {
     link.click();
 }
 
-if(canvas) {
+if (canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", startPainting);
     canvas.addEventListener("mouseup", stopPainting);
@@ -80,16 +100,16 @@ if(canvas) {
     canvas.addEventListener("contextmenu", handleCM);
 }
 
-Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
+colors.forEach((color) => color.addEventListener("click", handleColorClick));
 
-if(range) {
+if (range) {
     range.addEventListener("input", handleRangeChange);
 }
 
-if(mode) {
+if (mode) {
     mode.addEventListener("click", handleModeClick);
 }
 
-if(svaeBtn) {
+if (svaeBtn) {
     svaeBtn.addEventListener("click", handleSaveClick);
 }

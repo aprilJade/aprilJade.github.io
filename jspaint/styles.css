@@ -15,9 +15,8 @@ body {
     height: 700px;
     background-color: white;
     border-radius: 15px;
-    border: 1px solid rgba(0, 0, 0, 0,2);
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-    color:rgba(0, 0, 0, 0,8);
+    cursor: none;
 }
 
 .controls {
@@ -53,14 +52,24 @@ body {
     display: flex;
 }
 
-.controls_colors .controls_color {
+.controls_colors > .controls_color_btn {
     width: 50px;
     height: 50px;
-    border-radius: 25px;
+    margin-right: 5px;
+    border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
+.controls_colors > .controls_color_btn:last-child {
+    margin-right: 0;
+}
+
 .controls .controls_range {
     margin-bottom: 30px;
+}
+
+#cursor {
+    position: fixed;
+    pointer-events: none;
 }
