@@ -41,8 +41,10 @@ function onMouseMove(event) {
 }
 
 function handleColorClick(event) {
-    ctx.strokeStyle = event.target.style.backgroundColor;
-    ctx.fillStyle = event.target.style.backgroundColor;
+    const bgColor = event.target.style.backgroundColor;
+
+    ctx.strokeStyle = bgColor;
+    ctx.fillStyle = bgColor;
 }
 
 function handleRangeChange(event) {
