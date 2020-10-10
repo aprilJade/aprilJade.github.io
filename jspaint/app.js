@@ -7,9 +7,9 @@ const saveBtn = document.getElementById("jsSave");
 const cursor = document.getElementById("cursor");
 const cursorCircle = cursor.querySelector("circle");
 
+
 const INITIAL_COLOR = "#2c2c2c";
 let LINE_WIDTH = 2.5;
-
 canvas.width = 700;
 canvas.height = 700;
 
@@ -22,7 +22,16 @@ ctx.fillStyle = INITIAL_COLOR;
 let filling = false;
 let painting = false;
 
+
+const undoStack = [];
+const redoStack = [];
+undoStack.push(canvas.toDataURL());
+
+
 function onMouseUp() {
+    if(painting) {
+        undoStack.push(canvas.toDataURL());
+    }
     painting = false;
 }
 
@@ -83,6 +92,22 @@ function onClickSaveBtn() {
     link.click();
 }
 
+function onkeyDown(event) {
+    if(event.which == 90 && event.ctrlKey) {
+        if(event.shiftKey) {
+            if(redoStack.length > 0) {
+                undoStack.push(redoStack.pop());
+            }
+        } else if(undoStack.length > 1) {
+            redoStack.push(undoStack.pop());
+        }
+        var img = new Image();
+        img.src = undoStack[undoStack.length - 1];
+        ctx.drawImage(img, 0, 0);
+        console.log(undoStack.length);
+    }
+}
+
 if (canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", onMouseDown);
@@ -103,3 +128,5 @@ if (mode) {
 if (saveBtn) {
     saveBtn.addEventListener("click", onClickSaveBtn);
 }
+
+document.addEventListener("keydown", onkeyDown);
