@@ -4,8 +4,11 @@ const colors = document.querySelectorAll(".controls_color_btn");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
 const svaeBtn = document.getElementById("jsSave");
+const cursor = document.getElementById("cursor");
+const cursorCircle = cursor.querySelector("circle");
 
 const INITIAL_COLOR = "#2c2c2c";
+let LINE_WIDTH = 2.5;
 
 canvas.width = 700;
 canvas.height = 700;
@@ -13,7 +16,7 @@ canvas.height = 700;
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = INITIAL_COLOR;
-ctx.lineWidth = 2.5;
+ctx.lineWidth = LINE_WIDTH;
 ctx.fillStyle = INITIAL_COLOR;
 
 let filling = false;
@@ -28,14 +31,19 @@ function startPainting() {
 }
 
 function onMouseMove(event) {
-    const x = event.offsetX;
-    const y = event.offsetY;
+    const offsetX = event.offsetX;
+    const offsetY = event.offsetY;
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+
+    cursor.style.left = clientX - LINE_WIDTH / 2;
+    cursor.style.top = clientY - LINE_WIDTH / 2;
 
     if (!painting) {
         ctx.beginPath();
-        ctx.moveTo(x, y);
+        ctx.moveTo(offsetX, offsetY);
     } else {
-        ctx.lineTo(x, y);
+        ctx.lineTo(offsetX, offsetY);
         ctx.stroke();
     }
 }
@@ -45,10 +53,20 @@ function handleColorClick(event) {
 
     ctx.strokeStyle = bgColor;
     ctx.fillStyle = bgColor;
+    cursorCircle.setAttribute("fill", bgColor);
 }
 
 function handleRangeChange(event) {
-    ctx.lineWidth = event.target.value;
+    // update line width
+    LINE_WIDTH = event.target.value;
+    ctx.lineWidth = LINE_WIDTH;
+
+    // update cursor
+    cursor.setAttribute("width", LINE_WIDTH);
+    cursor.setAttribute("height", LINE_WIDTH);
+    cursorCircle.setAttribute("cx", LINE_WIDTH / 2);
+    cursorCircle.setAttribute("cy", LINE_WIDTH / 2);
+    cursorCircle.setAttribute("r", LINE_WIDTH / 2);
 }
 
 function handleModeClick() {
