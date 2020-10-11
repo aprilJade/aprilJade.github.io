@@ -14,6 +14,7 @@ body {
     display: flex;
     padding: 0 10px;
     flex-direction: column-reverse;
+    align-items: center;
 }
 
 .canvas {
@@ -56,12 +57,15 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     padding: 3px;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    background-color: rgba(220, 220, 220, 0.5);
 }
 
 .pallete > .color_btn {
     width: 50px;
     height: 50px;
-    margin: 4px 2px;
+    margin: 4px;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -96,12 +100,13 @@ body {
 @media screen and (min-width: 768px) {
     #drawingTools {
         flex-direction: row;
+        align-items: flex-start;
     }
 
     .pallete {
         flex-direction: column;
         justify-content: flex-start;
-        margin: 2px 4px;
+        margin: 0px 4px 4px 4px;
     }
 
 }
