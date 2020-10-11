@@ -10,10 +10,14 @@ body {
     padding-bottom: 50px;
 }
 
+#drawingTools {
+    display: flex;
+    padding: 0 10px;
+    flex-direction: column-reverse;
+}
+
 .canvas {
-    width: 700px;
-    height: 700px;
-    background-color: white;
+    max-width: 100%;
     border-radius: 15px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
     cursor: none;
@@ -47,18 +51,23 @@ body {
     transform: scale(0.98);
 }
 
+.pallete {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .pallete > .color_btn {
     width: 50px;
     height: 50px;
-    margin-right: 5px;
-    margin-bottom: 10px;
+    margin: 0 0 10px 5px;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.pallete > .color_btn:last-child {
-    margin-right: 0;
+.pallete > .color_btn:first-child {
+    margin-left: 0;
 }
 
 .controls_range {
@@ -69,11 +78,18 @@ body {
     position: fixed;
     pointer-events: none;
 }
-.pallete {
-    display: flex;
-    flex-direction: column;
-}
 
-.drawingTools {
-    display: flex;
+@media screen and (min-width: 1100px) {
+    #drawingTools {
+        flex-direction: row;
+    }
+
+    .pallete {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .pallete > .color_btn:first-child {
+        margin-left: 5px;
+    }
 }
