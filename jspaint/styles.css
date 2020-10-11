@@ -20,14 +20,13 @@ body {
 }
 
 .controls {
-    margin-top: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.controls .controls_btns {
-    margin-bottom: 30px;
+.controls_btns {
+    margin-bottom: 10px;
 }
 
 .controls_btns button {
@@ -48,28 +47,33 @@ body {
     transform: scale(0.98);
 }
 
-.controls .controls_colors {
-    display: flex;
-}
-
-.controls_colors > .controls_color_btn {
+.pallete > .color_btn {
     width: 50px;
     height: 50px;
     margin-right: 5px;
+    margin-bottom: 10px;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.controls_colors > .controls_color_btn:last-child {
+.pallete > .color_btn:last-child {
     margin-right: 0;
 }
 
-.controls .controls_range {
-    margin-bottom: 30px;
+.controls_range {
+    margin-bottom: 10px;
 }
 
 #cursor {
     position: fixed;
     pointer-events: none;
+}
+.pallete {
+    display: flex;
+    flex-direction: column;
+}
+
+.drawingTools {
+    display: flex;
 }

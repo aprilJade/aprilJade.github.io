@@ -89,7 +89,7 @@ function onClickSaveBtn() {
     link.click();
 }
 
-function onkeyDown(event) {
+function onKeyDown(event) {
     if (event.which == 90 && event.ctrlKey) {
         if (event.shiftKey) {
             if (redoStack.length > 0) {
@@ -100,36 +100,32 @@ function onkeyDown(event) {
         }
         var img = new Image();
         img.src = undoStack[undoStack.length - 1];
-        img.addEventListener(
-            "load",
-            () => {
+        img.addEventListener("load", () => {
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                console.log(undoStack.length);
-            },
-            { once: true }
+            }, { once: true }
         );
     }
 }
 
 if (canvas) {
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mousedown", onMouseDown);
-    canvas.addEventListener("mouseup", onMouseUp);
-    canvas.addEventListener("mouseleave", onMouseUp);
+    canvas.addEventListener("mousemove", onMouseMove, {passive : true});
+    canvas.addEventListener("mousedown", onMouseDown, {passive : true});
+    canvas.addEventListener("mouseup", onMouseUp, {passive : true});
+    canvas.addEventListener("mouseleave", onMouseUp, {passive : true});
 }
 
-colors.forEach((color) => color.addEventListener("click", onClickPallete));
+colors.forEach((color) => color.addEventListener("click", onClickPallete, {passive : true}));
 
 if (range) {
-    range.addEventListener("input", onRangeChange);
+    range.addEventListener("input", onRangeChange, {passive : true});
 }
 
 if (mode) {
-    mode.addEventListener("click", onClickModeBtn);
+    mode.addEventListener("click", onClickModeBtn, {passive : true});
 }
 
 if (saveBtn) {
-    saveBtn.addEventListener("click", onClickSaveBtn);
+    saveBtn.addEventListener("click", onClickSaveBtn, {passive : true});
 }
 
-document.addEventListener("keydown", onkeyDown);
+document.addEventListener("keydown", onKeyDown, {passive : true});
