@@ -51,15 +51,6 @@ body {
     transform: scale(0.98);
 }
 
-.rollbackBtns button {
-    background-color: white;
-    padding: 4px;
-    border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-    font-weight: 600;
-    font-size: 15px;
-}
-
 .pallete {
     display: flex;
     justify-content: center;
@@ -81,6 +72,21 @@ body {
 
 .controls_range {
     margin-bottom: 10px;
+}
+
+.rollbackBtns {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.rollbackBtns > button {
+    background-color: white;
+    padding: 4px;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
 }
 
 #cursor {

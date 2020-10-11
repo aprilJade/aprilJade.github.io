@@ -20,6 +20,10 @@
     <div id="drawingTools">
         <div id="canvasWrap">
             <canvas id="jsCanvas" class="canvas"></canvas>
+            <div class="rollbackBtns">
+                <button id="undoBtn">←</button>
+                <button id="redoBtn">→</button>
+            </div>
         </div>
         <div class="pallete">
             <button class="color_btn" aria-label="#2c2c2c" style="background-color:#2c2c2c"></button>
@@ -32,10 +36,6 @@
             <button class="color_btn" aria-label="#0579ff" style="background-color:#0579ff"></button>
             <button class="color_btn" aria-label="#5856d6" style="background-color:#5856d6"></button>
         </div>
-    </div>
-    <div class="rollbackBtns">
-        <button id="undoBtn">←</button>
-        <button id="redoBtn">→</button>
     </div>
     <svg id="cursor" width="2.5" height="2.5">
         <circle cx="1.25" cy="1.25" r="2.5" fill="#2c2c2c" />
