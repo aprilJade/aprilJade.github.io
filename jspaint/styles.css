@@ -51,7 +51,7 @@ body {
     transform: scale(0.98);
 }
 
-.undoRedoBtns button{
+.rollbackBtns button {
     background-color: white;
     padding: 4px;
     border-radius: 25px;

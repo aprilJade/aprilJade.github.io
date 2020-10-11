@@ -27,10 +27,12 @@ let painting = false;
 const undoStack = [];
 const redoStack = [];
 undoStack.push(canvas.toDataURL());
+ctrlRollbackBtns();
 
 function onMouseUp() {
     if (painting) {
         undoStack.push(canvas.toDataURL());
+        ctrlRollbackBtns();
     }
     painting = false;
 }
@@ -91,6 +93,7 @@ function onClickSaveBtn() {
     link.download = "paint";
     link.click();
 }
+
 function undo() {
     if (undoStack.length > 1) {
         redoStack.push(undoStack.pop());
@@ -100,6 +103,7 @@ function undo() {
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             }, { once: true }
         );
+        ctrlRollbackBtns();
     }
 }
 
@@ -112,8 +116,10 @@ function redo() {
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             }, { once: true }
         );
+        ctrlRollbackBtns();
     }
 }
+
 function onKeyDown(event) {
     if (event.which == 90 && event.ctrlKey) {
         if (event.shiftKey) {
@@ -132,6 +138,11 @@ function onClickRedoBtn(event) {
     redo();
 }
 
+function ctrlRollbackBtns() {
+    undoBtn.disabled = (undoStack.length === 1);
+    redoBtn.disabled = (redoStack.length === 0);
+}
+
 if (canvas) {
     canvas.addEventListener("mousemove", onMouseMove, {passive : true});
     canvas.addEventListener("mousedown", onMouseDown, {passive : true});
@@ -141,18 +152,9 @@ if (canvas) {
 
 colors.forEach((color) => color.addEventListener("click", onClickPallete, {passive : true}));
 
-if (range) {
-    range.addEventListener("input", onRangeChange, {passive : true});
-}
-
-if (mode) {
-    mode.addEventListener("click", onClickModeBtn, {passive : true});
-}
-
-if (saveBtn) {
-    saveBtn.addEventListener("click", onClickSaveBtn, {passive : true});
-}
-
+if(range)   range.addEventListener("input", onRangeChange, {passive : true});
+if(mode)    mode.addEventListener("click", onClickModeBtn, {passive : true});
+if(saveBtn) saveBtn.addEventListener("click", onClickSaveBtn, {passive : true});
 if(undoBtn) undoBtn.addEventListener("click", onClickUndoBtn, {passive: true});
 if(redoBtn) redoBtn.addEventListener("click", onClickRedoBtn, {passive: true});
 
