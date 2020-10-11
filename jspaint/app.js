@@ -1,15 +1,37 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
-const colors = document.querySelectorAll(".color_btn");
-const range = document.getElementById("jsRange");
-const mode = document.getElementById("jsMode");
-const saveBtn = document.getElementById("jsSave");
+const mode = document.getElementById("modeBtn");
 const cursor = document.getElementById("cursor");
 const cursorCircle = cursor.querySelector("circle");
 const undoBtn = document.getElementById("undoBtn");
 const redoBtn = document.getElementById("redoBtn");
+const themeBtn = document.getElementById("themeBtn");
 
+document.querySelectorAll(".color_btn").forEach((color) => 
+    color.addEventListener("click", onClickPallete, {passive : true}));
+document.getElementById("jsRange").addEventListener("input", onRangeChange, {passive : true});
+document.getElementById("saveBtn").addEventListener("click", onClickSaveBtn, {passive : true});
+document.addEventListener("keydown", onKeyDown, {passive : true});
 
+if(undoBtn) undoBtn.addEventListener("click", () => {
+    undo();
+}, {passive: true});
+if(redoBtn) redoBtn.addEventListener("click", () => {
+    redo();
+}, {passive: true});
+
+if (canvas) {
+    canvas.addEventListener("mousemove", onMouseMove, {passive : true});
+    canvas.addEventListener("mousedown", onMouseDown, {passive : true});
+    canvas.addEventListener("mouseup", onMouseUp, {passive : true});
+    canvas.addEventListener("mouseleave", onMouseUp, {passive : true});
+}
+
+if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.documentElement.classList.add("dark");
+}
+if(mode) mode.addEventListener("click", onClickModeBtn, {passive : true});
+if(themeBtn) themeBtn.addEventListener("click", onClickThemeBtn, {passive: true});
 const INITIAL_COLOR = "#2c2c2c";
 let LINE_WIDTH = 2.5;
 canvas.width = 700;
@@ -100,9 +122,8 @@ function undo() {
         var img = new Image();
         img.src = undoStack[undoStack.length - 1];
         img.addEventListener("load", () => {
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            }, { once: true }
-        );
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }, {once: true});
         ctrlRollbackBtns();
     }
 }
@@ -113,9 +134,8 @@ function redo() {
         var img = new Image();
         img.src = undoStack[undoStack.length - 1];
         img.addEventListener("load", () => {
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            }, { once: true }
-        );
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }, {once: true});
         ctrlRollbackBtns();
     }
 }
@@ -130,32 +150,12 @@ function onKeyDown(event) {
     }
 }
 
-function onClickUndoBtn(event) {
-    undo();
-}
-
-function onClickRedoBtn(event) {
-    redo();
-}
-
 function ctrlRollbackBtns() {
     undoBtn.disabled = (undoStack.length === 1);
     redoBtn.disabled = (redoStack.length === 0);
 }
 
-if (canvas) {
-    canvas.addEventListener("mousemove", onMouseMove, {passive : true});
-    canvas.addEventListener("mousedown", onMouseDown, {passive : true});
-    canvas.addEventListener("mouseup", onMouseUp, {passive : true});
-    canvas.addEventListener("mouseleave", onMouseUp, {passive : true});
+function onClickThemeBtn() {
+    themeBtn.innerText = document.documentElement.classList.toggle("dark") ?
+        "라이트모드로 보기" : "다크모드로 보기";
 }
-
-colors.forEach((color) => color.addEventListener("click", onClickPallete, {passive : true}));
-
-if(range)   range.addEventListener("input", onRangeChange, {passive : true});
-if(mode)    mode.addEventListener("click", onClickModeBtn, {passive : true});
-if(saveBtn) saveBtn.addEventListener("click", onClickSaveBtn, {passive : true});
-if(undoBtn) undoBtn.addEventListener("click", onClickUndoBtn, {passive: true});
-if(redoBtn) redoBtn.addEventListener("click", onClickRedoBtn, {passive: true});
-
-document.addEventListener("keydown", onKeyDown, {passive : true});

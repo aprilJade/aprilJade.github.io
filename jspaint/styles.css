@@ -1,6 +1,19 @@
 @import "reset.css";
+html {
+    --bg-color: #f6f9fc;
+    --text-color: #343434;
+    --btn-color: #fff;
+}
+
+html.dark {
+    --bg-color: #222;
+    --text-color: #bbb;
+    --btn-color: #444;
+}
+
 body {
-    background-color: #f6f9fc;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     display: flex;
@@ -37,9 +50,9 @@ body {
 .controls_btns button {
     all: unset;
     cursor: pointer;
-    background-color: white;
+    background-color: var(--btn-color);
     padding: 5px 0px;
-    width: 80px;
+    width: 100px;
     text-align: center;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -49,7 +62,7 @@ body {
 }
 
 .controls_btns button:active {
-    transform: scale(0.98);
+    transform: scale(0.90);
 }
 
 .pallete {
@@ -81,7 +94,7 @@ body {
 }
 
 .rollbackBtns > button {
-    background-color: white;
+    background-color: var(--btn-color);
     padding: 4px;
     border-radius: 50%;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -112,7 +125,11 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-    html {
-        background-color: #333333;
+    body {
+        background-color: #222;
+        color: #bbb;
+    }
+    .rollbackBtns > button {
+        background-color: #444;
     }
 }
